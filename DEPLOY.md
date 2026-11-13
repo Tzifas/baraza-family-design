@@ -1,13 +1,16 @@
-# Deploying the Baraza design proposal
+# Deployment
 
-This folder is the whole site. `index.html` sits at the root, there is no build
-command and no framework, so both GitHub and Vercel need almost no configuration.
+Deployed. The live link is:
 
-Do these once. After that, the link is stable and shareable on WhatsApp.
+**<https://fambaraza.vercel.app>**
+
+The site comes from the GitHub repository
+<https://github.com/apexwebs/FamBaraza>: every push to `main` redeploys
+automatically, so this folder stays the single source of truth.
 
 ---
 
-## 1. Put it on GitHub
+## GitHub
 
 Done. The site is on GitHub at <https://github.com/apexwebs/FamBaraza> and
 pushes go straight there:
@@ -19,13 +22,9 @@ git push
 
 ---
 
-## 2. Put it on Vercel
+## Vercel
 
-**a.** Go to <https://vercel.com/new> and sign in with GitHub.
-
-**b.** Import `apexwebs/FamBaraza`.
-
-**c.** Leave every setting alone:
+Imported at <https://vercel.com/new> from GitHub, with every setting left alone:
 
 | Setting | Value |
 | --- | --- |
@@ -35,20 +34,16 @@ git push
 | Output directory | empty |
 | Install command | empty |
 
-**d.** Deploy. It takes a few seconds.
-
-**e.** Copy the production URL (something like
-`fambaraza.vercel.app`) and rename the project to whatever reads
-best — for example `baraza-family`. The URL follows the project name.
+**d.** Deployed. The project was renamed to `fambaraza`, so the URL follows the project name.
 
 ---
 
-## 3. Send it to Mr. Baraza
+## Send it to Mr. Baraza
 
 A short message does the job:
 
 > Good afternoon Mr. Baraza. Here is the design for the family site:
-> <link>
+> https://fambaraza.vercel.app
 > Please open it on a laptop if you can. Pick one of the three looks in the dark
 > panel at the bottom right, tick the screens you are happy with, and press
 > *Send my review* — it comes straight to us on WhatsApp.
@@ -57,7 +52,6 @@ A short message does the job:
 
 ## Notes
 
-- **Nothing to keep in sync.** Every push to `main` redeploys automatically.
 - **No secrets in the repo.** The only outbound link is the WhatsApp handoff.
 - **The same folder** also deploys unchanged to Cloudflare Pages, Netlify or
   GitHub Pages if Vercel is inconvenient.

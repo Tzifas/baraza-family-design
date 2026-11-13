@@ -98,10 +98,11 @@ tools/build-fonts.mjs regenerates fonts.css
 
 ## Deploying
 
-The folder is a self-contained static site: no build command, no output
-directory, no framework. On Vercel, import the repository and leave every
-setting at its default (`index.html` is at the root). The same folder also works
-unchanged on Cloudflare Pages, Netlify or GitHub Pages.
+Live at **https://fambaraza.vercel.app** (imported on Vercel from GitHub with
+every setting left at its default; `index.html` sits at the root). The folder is
+a self-contained static site: no build command, no output directory, no
+framework. The same folder also works unchanged on Cloudflare Pages, Netlify or
+GitHub Pages.
 
 ## Notes for the build team
 
