@@ -1,0 +1,6 @@
+# verification screenshots and browser profiles — not part of the site
+.shots/
+chrome-profile*/
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,87 @@
+[
+  {
+    "family": "Fraunces",
+    "faces": [
+      {
+        "filename": "Fraunces-normal-latin-ext.woff2",
+        "style": "normal",
+        "weight": "300 700"
+      },
+      {
+        "filename": "Fraunces-normal-latin.woff2",
+        "style": "normal",
+        "weight": "300 700"
+      }
+    ]
+  },
+  {
+    "family": "Newsreader",
+    "faces": [
+      {
+        "filename": "Newsreader-normal-latin-ext.woff2",
+        "style": "normal",
+        "weight": "300 600"
+      },
+      {
+        "filename": "Newsreader-normal-latin.woff2",
+        "style": "normal",
+        "weight": "300 600"
+      }
+    ]
+  },
+  {
+    "family": "InstrumentSerif",
+    "faces": [
+      {
+        "filename": "InstrumentSerif-italic-latin-ext.woff2",
+        "style": "italic",
+        "weight": "400"
+      },
+      {
+        "filename": "InstrumentSerif-italic-latin.woff2",
+        "style": "italic",
+        "weight": "400"
+      },
+      {
+        "filename": "InstrumentSerif-normal-latin-ext.woff2",
+        "style": "normal",
+        "weight": "400"
+      },
+      {
+        "filename": "InstrumentSerif-normal-latin.woff2",
+        "style": "normal",
+        "weight": "400"
+      }
+    ]
+  },
+  {
+    "family": "Inter",
+    "faces": [
+      {
+        "filename": "Inter-normal-latin-ext.woff2",
+        "style": "normal",
+        "weight": "300 700"
+      },
+      {
+        "filename": "Inter-normal-latin.woff2",
+        "style": "normal",
+        "weight": "300 700"
+      }
+    ]
+  },
+  {
+    "family": "InstrumentSans",
+    "faces": [
+      {
+        "filename": "InstrumentSans-normal-latin-ext.woff2",
+        "style": "normal",
+        "weight": "400 700"
+      },
+      {
+        "filename": "InstrumentSans-normal-latin.woff2",
+        "style": "normal",
+        "weight": "400 700"
+      }
+    ]
+  }
+]

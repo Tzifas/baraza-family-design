@@ -1,0 +1,257 @@
+/* ============================================================
+   Baraza Family — design tokens
+   Three looks, one architecture. Everything visual is a token.
+   ============================================================ */
+
+:root {
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px;
+  --sp-6: 24px; --sp-7: 32px; --sp-8: 40px; --sp-9: 56px; --sp-10: 72px; --sp-11: 96px;
+
+  --max: 1180px;
+  --gut: 20px;
+  --hdr: 58px;
+
+  --ease: cubic-bezier(.2,.7,.2,1);
+  --t-fast: 160ms;
+  --t: 240ms;
+  --t-slow: 320ms;
+
+  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --density: 1;
+}
+
+@media (min-width: 1024px) {
+  :root { --gut: 40px; --hdr: 68px; }
+}
+
+/* ------------------------------------------------------------
+   LOOK A — Albamu
+   Warm ivory, deep forest, ochre. A kept family album.
+   ------------------------------------------------------------ */
+html[data-look="a"] {
+  color-scheme: light;
+  --paper: #FAF6EC;
+  --paper-2: #F2EADA;
+  --paper-3: #EADFC9;
+  --card: #FFFDF8;
+  --ink: #17150F;
+  --ink-2: #4A4437;
+  --muted: #7B7263;
+  --rule: #E1D8C4;
+  --rule-soft: #EDE6D6;
+
+  --forest: #12362E;
+  --forest-deep: #0B2420;
+  --forest-tint: #E7EDE9;
+
+  --accent: #A9762A;
+  --accent-soft: #F1E4C7;
+  --accent-ink: #6E4A12;
+  --on-forest: #F7F2E4;
+
+  --action: #12362E;
+  --action-ink: #F7F2E4;
+  --action-hover: #0B2420;
+
+  --ok: #2F6D4F;
+  --ok-soft: #E4EFE8;
+  --danger: #8C3A2B;
+  --danger-soft: #F6E4DF;
+
+  --b1: #12362E;
+  --b2: #A9762A;
+  --b3: #8D5B3F;
+
+  --r-xs: 6px; --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-pill: 999px;
+
+  --shadow: 0 1px 2px rgba(23,21,15,.05), 0 10px 26px -14px rgba(23,21,15,.22);
+  --shadow-lift: 0 2px 4px rgba(23,21,15,.06), 0 16px 34px -16px rgba(23,21,15,.26);
+
+  --font-serif: 'Fraunces', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --display-soft: "SOFT" 40, "WONK" 1, "opsz" 100;
+  --density: 1;
+  --look-name: "Albamu";
+}
+
+/* ------------------------------------------------------------
+   LOOK B — Usiku
+   Evergreen ground, ivory type, brass. The same record, at night.
+   ------------------------------------------------------------ */
+html[data-look="b"] {
+  color-scheme: dark;
+  --paper: #0D1F1A;
+  --paper-2: #16302A;
+  --paper-3: #1D3B33;
+  --card: #11271F;
+  --ink: #F4EEE0;
+  --ink-2: #D6CEBD;
+  --muted: #98A79C;
+  --rule: #2A423A;
+  --rule-soft: #1E322B;
+
+  --forest: #C9A227;
+  --forest-deep: #E3BC4A;
+  --forest-tint: #1C332C;
+
+  --accent: #C9A227;
+  --accent-soft: #2C3326;
+  --accent-ink: #EBD08A;
+  --on-forest: #0D1F1A;
+
+  --action: #F4EEE0;
+  --action-ink: #0D1F1A;
+  --action-hover: #FFFFFF;
+
+  --ok: #8FC7AC;
+  --ok-soft: #16302A;
+  --danger: #E39079;
+  --danger-soft: #30221D;
+
+  --b1: #C9A227;
+  --b2: #8FC7AC;
+  --b3: #DE9270;
+
+  --r-xs: 3px; --r-sm: 4px; --r-md: 6px; --r-lg: 8px; --r-pill: 999px;
+
+  --shadow: none;
+  --shadow-lift: 0 0 0 1px rgba(244,238,224,.10);
+
+  --font-serif: 'Newsreader', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --display-soft: "opsz" 48;
+  --density: 0.86;
+  --look-name: "Usiku";
+}
+
+/* ------------------------------------------------------------
+   LOOK C — Pwani
+   Limestone, palm, terracotta. Coastal, airy, generous curves.
+   ------------------------------------------------------------ */
+html[data-look="c"] {
+  color-scheme: light;
+  --paper: #F7F2E6;
+  --paper-2: #F0E4CE;
+  --paper-3: #E7D8B9;
+  --card: #FFFCF5;
+  --ink: #16181A;
+  --ink-2: #44484A;
+  --muted: #766E60;
+  --rule: #E2D5BC;
+  --rule-soft: #EFE7D6;
+
+  --forest: #0C3A30;
+  --forest-deep: #072620;
+  --forest-tint: #E3EDE7;
+
+  --accent: #B9623A;
+  --accent-soft: #F4DFD2;
+  --accent-ink: #7C3A1E;
+  --on-forest: #FAF5EA;
+
+  --action: #B9623A;
+  --action-ink: #FFF7EF;
+  --action-hover: #A6542F;
+
+  --ok: #2F6D4F;
+  --ok-soft: #E3EFE9;
+  --danger: #9B3B27;
+  --danger-soft: #F7E2DB;
+
+  --b1: #0C3A30;
+  --b2: #B9623A;
+  --b3: #8B6A3F;
+
+  --r-xs: 10px; --r-sm: 14px; --r-md: 20px; --r-lg: 26px; --r-pill: 999px;
+
+  --shadow: 0 1px 2px rgba(22,24,26,.04), 0 14px 34px -18px rgba(22,24,26,.22);
+  --shadow-lift: 0 3px 6px rgba(22,24,26,.05), 0 22px 44px -20px rgba(22,24,26,.28);
+
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-sans: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --display-soft: normal;
+  --density: 1.14;
+  --look-name: "Pwani";
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.62;
+  font-feature-settings: "kern" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color 240ms var(--ease), color 240ms var(--ease);
+}
+
+@media (min-width: 1024px) { body { font-size: 16px; } }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-variation-settings: var(--display-soft);
+  letter-spacing: -0.018em;
+  line-height: 1.12;
+  margin: 0;
+  color: var(--ink);
+}
+
+html[data-look="b"] h1,
+html[data-look="b"] h2,
+html[data-look="b"] h3 { font-weight: 400; letter-spacing: -0.01em; }
+
+html[data-look="c"] h1,
+html[data-look="c"] h2,
+html[data-look="c"] h3 { font-weight: 400; letter-spacing: -0.005em; line-height: 1.06; }
+
+p { margin: 0 0 1em; }
+p:last-child { margin-bottom: 0; }
+a { color: inherit; }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+.num, time, .tabular { font-variant-numeric: tabular-nums; }
+
+::selection { background: var(--accent-soft); color: var(--ink); }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.skip {
+  position: fixed; top: 8px; left: 8px; z-index: 200;
+  background: var(--action); color: var(--action-ink);
+  padding: 10px 16px; border-radius: var(--r-sm);
+  text-decoration: none; font-size: 14px; font-weight: 600;
+  transform: translateY(-160%);
+  transition: transform var(--t-fast) var(--ease);
+}
+.skip:focus { transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
