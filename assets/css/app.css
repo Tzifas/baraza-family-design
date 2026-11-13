@@ -809,8 +809,23 @@ body.tree-mode { overflow: hidden; }
   position: absolute;
   z-index: 10;
 }
-.tree-top-left { top: 14px; left: var(--gut); max-width: 44vw; }
-.tree-top-right { top: 14px; right: var(--gut); display: flex; flex-direction: column; gap: 6px; }
+.tree-top-left {
+  top: 12px;
+  left: var(--gut);
+  right: var(--gut);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  pointer-events: none;
+}
+.tree-top-left > * { pointer-events: auto; }
+.tree-top-right { top: 12px; right: var(--gut); }
+.tree-bottom {
+  bottom: 14px;
+  left: var(--gut);
+  right: auto;
+}
 
 .tree-hint {
   font-size: 12.5px;
@@ -822,31 +837,67 @@ body.tree-mode { overflow: hidden; }
   backdrop-filter: blur(6px);
 }
 
-.zbtn {
-  width: 44px; height: 44px;
-  display: grid; place-items: center;
+/* one toolbar, not a column of cards */
+.zset {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
   background: var(--card);
   border: 1px solid var(--rule);
-  border-radius: var(--r-sm);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow);
+}
+
+.zbtn {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: var(--r-pill);
   cursor: pointer;
   color: var(--ink);
-  box-shadow: var(--shadow);
-  transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+  flex: none;
 }
-.zbtn:hover { background: var(--paper-2); border-color: var(--ink-2); }
-.zbtn.zoom-pct { font-size: 11.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
-
-.zbtn-wide {
+.zbtn:hover { background: var(--paper-2); }
+.zbtn:active { background: var(--paper-3); }
+.zbtn.zoom-pct {
   width: auto;
-  padding: 0 12px;
-  gap: 6px;
+  min-width: 44px;
+  padding: 0 4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  cursor: default;
+}
+.zbtn.zoom-pct:hover { background: transparent; }
+
+.zbtn-text {
+  width: auto;
+  padding: 0 13px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.zsep {
+  width: 1px;
+  height: 20px;
+  background: var(--rule);
+  margin: 0 3px;
+  flex: none;
+}
+
+.back-btn {
   font-size: 12.5px;
   font-weight: 600;
-  min-width: 44px;
+  gap: 6px;
+  box-shadow: var(--shadow);
 }
-
-.tree-bottom-left { bottom: 14px; left: var(--gut); right: var(--gut); }
-.tree-bottom-right { bottom: 64px; right: var(--gut); }
 
 .trail {
   display: flex;
@@ -856,7 +907,7 @@ body.tree-mode { overflow: hidden; }
   font-size: 12.5px;
   background: color-mix(in srgb, var(--paper) 84%, transparent);
   backdrop-filter: blur(6px);
-  padding: 6px 10px;
+  padding: 5px 10px;
   border-radius: var(--r-pill);
   max-width: max-content;
 }
@@ -871,8 +922,15 @@ body.tree-mode { overflow: hidden; }
   .tnode.is-focus { width: 176px; height: 118px; }
   .tnode.is-focus .tnode-name { font-size: 15.5px; }
   .tnode-foot { margin: 4px -10px 0; padding: 0 6px; height: 32px; }
-  .tree-top-left { max-width: 60vw; }
-  .tree-hint { font-size: 11.5px; padding: 4px 8px; }
+  .tree-hint { font-size: 11.5px; padding: 3px 9px; }
+  .trail { font-size: 11.5px; padding: 4px 9px; }
+  .tree-bottom { left: 10px; right: 10px; bottom: 56px; }
+  .zset { width: 100%; justify-content: space-between; padding: 3px; }
+  .zbtn { width: 40px; height: 40px; }
+  .zbtn-text { padding: 0 11px; font-size: 12.5px; flex: 1 1 auto; justify-content: center; }
+  .zbtn.zoom-pct { min-width: 40px; font-size: 11px; }
+  .tree-top-right { top: 12px; right: 10px; }
+  .back-btn { height: 30px !important; font-size: 11.5px; padding: 0 10px !important; }
 }
 
 /* ---------------- Profile ---------------- */
@@ -1659,3 +1717,62 @@ html[data-look="a"] .rail-card { box-shadow: var(--shadow); }
 
 main { min-height: calc(100dvh - var(--hdr)); }
 body.tree-mode main { min-height: 0; }
+
+/* ================================================================
+   Phone tuning — the phone is the device most of the family uses
+   ================================================================ */
+
+@media (max-width: 719px) {
+  :root { --hdr: 54px; --gut: 16px; }
+
+  .hdr-inner { gap: 10px; }
+  .brand-sub { display: none; }
+  .brand-name { font-size: 15.5px; }
+
+  .page-head { padding: var(--sp-6) 0 var(--sp-5); }
+  h1.page-title { font-size: 26px; }
+  .lede { font-size: 15.5px; }
+  .section { padding: var(--sp-7) 0; }
+  .section-head { margin-bottom: var(--sp-4); }
+
+  .stat-num { font-size: 28px; }
+  .stat { padding-top: var(--sp-4); padding-bottom: var(--sp-4); }
+
+  .identity { gap: 18px; }
+  .identity .mono-96 { width: 76px; height: 76px; font-size: 26px; }
+  .identity h1 { font-size: 27px; }
+  .profile-grid { padding-top: var(--sp-4); gap: var(--sp-6); }
+  .bio { font-size: 16px; margin: var(--sp-5) 0; }
+
+  .person-row { min-height: 60px; gap: 12px; }
+  .person-name { font-size: 15.5px; }
+  .panel, .rail-card { padding: var(--sp-4); }
+  .rel-chip { min-height: 42px; padding: 3px 10px 3px 3px; }
+  .rel-chip .n { font-size: 14px; }
+
+  .cover { padding: var(--sp-6) 0 var(--sp-8); }
+  .cover .display, .display { font-size: 31px; }
+  .cover .lede { font-size: 15.5px; }
+  .cover-facts { gap: 10px 18px; font-size: 12px; margin-top: var(--sp-6); }
+  .review-step { padding: 8px 0; }
+  .review-step b { font-size: 14px; }
+  .review-step span { font-size: 13px; }
+  .note-strip { font-size: 12.5px; padding: 11px 12px; }
+
+  .demo-pill { height: 36px; padding: 0 11px; font-size: 11.5px; right: 10px; bottom: 10px; gap: 6px; }
+  .demo-pill .tag { font-size: 8px; padding: 1px 4px; }
+  .pill-label { display: none; }
+
+  .q-label { font-size: 15px; }
+  .q-item { padding: var(--sp-5) 0; }
+  .q-hint { font-size: 12.5px; }
+
+  .drawer { width: 100vw; }
+  .toasts { bottom: 62px; }
+  .btn { padding: 0 15px; }
+  .btn-sm { padding: 0 11px; }
+  .diff-col { padding: var(--sp-4); }
+  .diff-val { font-size: 17px; }
+  .pkg th, .pkg td { padding: 10px 10px; }
+  .pack-body p { font-size: 15.5px; }
+}

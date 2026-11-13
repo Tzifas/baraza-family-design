@@ -434,18 +434,23 @@
     shell.className = 'tree-shell';
     shell.innerHTML =
       '<div class="tree-camera"></div>' +
-      '<div class="tree-overlay tree-top-left"><span class="tree-hint">Tap a person to centre the tree.</span></div>' +
-      '<div class="tree-overlay tree-top-right">' +
-        '<button class="zbtn" data-act="in" aria-label="Zoom in">' +
-          '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>' +
-        '<div class="zbtn zoom-pct" data-act="pct" role="status" aria-live="off">100%</div>' +
-        '<button class="zbtn" data-act="out" aria-label="Zoom out">' +
-          '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14"/></svg></button>' +
-        '<button class="zbtn zbtn-wide" data-act="fit">Fit</button>' +
-        '<button class="zbtn zbtn-wide" data-act="whole">Whole family</button>' +
+      '<div class="tree-overlay tree-top-left">' +
+        '<span class="tree-hint">Tap a person to centre the tree.</span>' +
+        '<div class="trail" data-el="trail"></div>' +
       '</div>' +
-      '<div class="tree-overlay tree-bottom-left"><div class="trail" data-el="trail"></div></div>' +
-      '<div class="tree-overlay tree-bottom-right" data-el="back"></div>';
+      '<div class="tree-overlay tree-top-right" data-el="back"></div>' +
+      '<div class="tree-overlay tree-bottom">' +
+        '<div class="zset" role="toolbar" aria-label="Tree controls">' +
+          '<button class="zbtn" data-act="out" aria-label="Zoom out">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 12h14"/></svg></button>' +
+          '<div class="zbtn zoom-pct" data-act="pct">100%</div>' +
+          '<button class="zbtn" data-act="in" aria-label="Zoom in">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>' +
+          '<span class="zsep" aria-hidden="true"></span>' +
+          '<button class="zbtn zbtn-text" data-act="fit">Fit</button>' +
+          '<button class="zbtn zbtn-text" data-act="whole">Whole family</button>' +
+        '</div>' +
+      '</div>';
 
     container.appendChild(shell);
     camEl = shell.querySelector('.tree-camera');
@@ -602,8 +607,8 @@
     var el = container.querySelector('[data-el="back"]');
     if (!el) return;
     if (id === 'p03') { el.innerHTML = ''; return; }
-    el.innerHTML = '<a class="zbtn zbtn-wide" href="#/tree/p03" style="text-decoration:none">' +
-      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6M11 6l-6 6 6 6"/></svg>Back to me</a>';
+    el.innerHTML = '<a class="chip chip-line back-btn" href="#/tree/p03" style="text-decoration:none;height:32px;padding:0 12px;background:var(--card)">' +
+      '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6M11 6l-6 6 6 6"/></svg>Back to me</a>';
   }
 
   function updateZoomLabel() {

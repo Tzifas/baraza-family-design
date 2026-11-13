@@ -288,8 +288,8 @@
     var pill = document.querySelector('.demo-pill');
     if (!pill) return;
     pill.innerHTML = '<span class="tag">DEMO</span>' +
-      '<span>Design review · ' + approvedCount() + ' of ' + SCREENS.length + '</span>' +
-      ic('chevronDown', 14);
+      '<span><span class="pill-label">Design review · </span>' + approvedCount() + ' of ' + SCREENS.length + '</span>' +
+      ic('chevronDown', 13);
     pill.setAttribute('aria-label', 'Open design review. ' + approvedCount() + ' of ' + SCREENS.length + ' screens approved.');
   }
 
