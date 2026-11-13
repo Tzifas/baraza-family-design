@@ -9,25 +9,13 @@ Do these once. After that, the link is stable and shareable on WhatsApp.
 
 ## 1. Put it on GitHub
 
-The repository is already initialised and committed on this machine
-(`C:\Users\user\OneDrive\Desktop\FamHeritage\design`).
-
-**a.** Create an empty repository on GitHub:
-<https://github.com/new>
-Name it something like `baraza-family-design`. Leave *Add a README*, *.gitignore*
-and *licence* switched **off** — the folder already has them.
-
-**b.** Then, in PowerShell, from this folder:
+Done. The site is on GitHub at <https://github.com/apexwebs/FamBaraza> and
+pushes go straight there:
 
 ```powershell
 cd "C:\Users\user\OneDrive\Desktop\FamHeritage\design"
-git remote add origin https://github.com/<your-account>/baraza-family-design.git
-git branch -M main
-git push -u origin main
+git push
 ```
-
-Git Credential Manager will open a browser window the first time. Sign in once
-and the push completes.
 
 ---
 
@@ -35,7 +23,7 @@ and the push completes.
 
 **a.** Go to <https://vercel.com/new> and sign in with GitHub.
 
-**b.** Import `baraza-family-design`.
+**b.** Import `apexwebs/FamBaraza`.
 
 **c.** Leave every setting alone:
 
@@ -50,7 +38,7 @@ and the push completes.
 **d.** Deploy. It takes a few seconds.
 
 **e.** Copy the production URL (something like
-`baraza-family-design.vercel.app`) and rename the project to whatever reads
+`fambaraza.vercel.app`) and rename the project to whatever reads
 best — for example `baraza-family`. The URL follows the project name.
 
 ---
