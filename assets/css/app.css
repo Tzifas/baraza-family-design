@@ -678,6 +678,10 @@ body.tree-mode { overflow: hidden; }
   position: relative;
   height: calc(100dvh - var(--hdr));
   overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
   background:
     radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--ink) 7%, transparent) 1px, transparent 0)
     0 0 / 22px 22px,

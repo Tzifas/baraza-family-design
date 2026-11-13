@@ -435,7 +435,7 @@
     shell.innerHTML =
       '<div class="tree-camera"></div>' +
       '<div class="tree-overlay tree-top-left">' +
-        '<span class="tree-hint">Tap a person to centre the tree.</span>' +
+        '<span class="tree-hint">Tap a card to centre it. Drag to pan, pinch to zoom.</span>' +
         '<div class="trail" data-el="trail"></div>' +
       '</div>' +
       '<div class="tree-overlay tree-top-right" data-el="back"></div>' +
@@ -629,28 +629,66 @@
   }
 
   function setupPanZoom(shell) {
-    var dragging = false, sx = 0, sy = 0, moved = 0;
+    var pointers = new Map();
+    var pinch = null; // { prevDist } while two fingers are down
+    var drag = null;  // { x, y } last position of the panning finger
+
+    function stopTween() { if (raf) { cancelAnimationFrame(raf); raf = null; } }
 
     shell.addEventListener('pointerdown', function (ev) {
-      if (ev.target.closest('.zbtn, .tnode, .trail, a, button')) return;
-      dragging = true; moved = 0;
-      sx = ev.clientX; sy = ev.clientY;
-      shell.setPointerCapture(ev.pointerId);
-      shell.style.cursor = 'grabbing';
+      // Mouse keeps the old canvas-only drag; touch may also grab a card
+      // (a stationary tap still fires its click, a moved finger pans).
+      if (ev.target.closest('.zbtn, .tree-overlay, .trail, a, button:not(.tnode)')) return;
+      stopTween();
+      pointers.set(ev.pointerId, { x: ev.clientX, y: ev.clientY });
+      if (pointers.size === 2) {
+        var pts = Array.from(pointers.values());
+        pinch = { prevDist: Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) };
+        drag = null;
+      } else if (pointers.size === 1) {
+        drag = { x: ev.clientX, y: ev.clientY };
+        shell.style.cursor = 'grabbing';
+      }
+      if (ev.pointerType === 'mouse') {
+        try { shell.setPointerCapture(ev.pointerId); } catch (e) {}
+      }
+      ev.preventDefault();
     });
     shell.addEventListener('pointermove', function (ev) {
-      if (!dragging) return;
-      var dx = ev.clientX - sx, dy = ev.clientY - sy;
-      moved += Math.abs(dx) + Math.abs(dy);
-      cam.x += dx; cam.y += dy;
-      sx = ev.clientX; sy = ev.clientY;
-      applyCam();
+      if (!pointers.has(ev.pointerId)) return;
+      pointers.set(ev.pointerId, { x: ev.clientX, y: ev.clientY });
+      if (pointers.size >= 2 && pinch) {
+        var pts = Array.from(pointers.values());
+        var d = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+        if (pinch.prevDist > 0 && d > 0) {
+          var rect = container.getBoundingClientRect();
+          zoomBy(d / pinch.prevDist, (pts[0].x + pts[1].x) / 2 - rect.left, (pts[0].y + pts[1].y) / 2 - rect.top);
+        }
+        pinch.prevDist = d;
+      } else if (drag) {
+        cam.x += ev.clientX - drag.x;
+        cam.y += ev.clientY - drag.y;
+        drag = { x: ev.clientX, y: ev.clientY };
+        applyCam();
+      }
     });
-    shell.addEventListener('pointerup', function (ev) {
-      dragging = false;
-      shell.style.cursor = '';
-      try { shell.releasePointerCapture(ev.pointerId); } catch (e) {}
-    });
+    function release(ev) {
+      pointers.delete(ev.pointerId);
+      if (pointers.size < 2) pinch = null;
+      if (pointers.size === 1) {
+        // Pinch ended, one finger left: keep panning without a jump.
+        var rest = Array.from(pointers.values())[0];
+        drag = { x: rest.x, y: rest.y };
+      } else {
+        drag = null;
+        shell.style.cursor = '';
+      }
+      if (ev.pointerType === 'mouse') {
+        try { shell.releasePointerCapture(ev.pointerId); } catch (e) {}
+      }
+    }
+    shell.addEventListener('pointerup', release);
+    shell.addEventListener('pointercancel', release);
     shell.addEventListener('wheel', function (ev) {
       if (ev.target.closest('.tree-overlay')) return;
       ev.preventDefault();
