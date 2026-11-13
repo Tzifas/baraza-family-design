@@ -86,7 +86,7 @@
               '<div>' +
                 '<p class="eyebrow">Design proposal · v1 · 13 November 2026</p>' +
                 '<h1 class="display">A first look at the Baraza family site.</h1>' +
-                '<p class="lede">Ten screens, drawn to the scope in your Project Pack. Nothing is built yet — this is the design gate. Walk through it, choose the look you want, and approve the screens.</p>' +
+                '<p class="lede">Eleven screens, drawn to the scope in your Project Pack. Nothing is built yet — this is the design gate. Walk through it, choose the look you want, approve the screens, and answer the twelve questions at the end.</p>' +
                 '<div class="btn-row cover-actions">' +
                   '<a class="btn btn-primary" href="#/tree/p03">Start the walkthrough' + icon('arrow', 16) + '</a>' +
                   '<a class="btn btn-soft" href="#/pack">Read the Project Pack</a>' +
@@ -1108,8 +1108,11 @@
                 }).join('') +
               '</div>' +
               '<p class="small muted" style="margin-top:16px" data-el="need-count"></p>' +
+              '<div class="btn-row mt-6">' +
+                '<a class="btn btn-primary" href="#/questions">Answer the twelve questions' + icon('arrow', 16) + '</a>' +
+              '</div>' +
               '<div class="wa-block" style="max-width:520px;margin-top:20px">' +
-                '<p>When you are ready, send this list and anything else on your mind straight to Apex on WhatsApp.</p>' +
+                '<p>Or send the checklist alone, straight to Apex on WhatsApp.</p>' +
                 '<a class="btn btn-primary" data-act="send-pack">' + icon('mail', 16) + ' Send this on WhatsApp</a>' +
                 '<p style="margin:10px 0 0;text-align:center">to <span class="wa-num">0711 410 442</span></p>' +
               '</div>' +
@@ -1202,10 +1205,155 @@
     }
   };
 
+  // =========================================================
+  // Questionnaire
+  // =========================================================
+  var Q = [
+    { id: 'q1', n: 1, label: 'What name would you like for the site?', type: 'text', ph: 'The Baraza Family', hint: 'It can be as plain or as formal as you like.' },
+    { id: 'q2', n: 2, label: 'Roughly how many family members will be on it at launch, and how many do you expect later?', type: 'pair', keys: ['q2a', 'q2b'], a: { label: 'At launch', ph: '21' }, b: { label: 'In a few years', ph: '60' } },
+    { id: 'q3', n: 3, label: 'Is it one family or several branches?', type: 'radio', options: ['One family', 'Several branches', 'Not sure yet'] },
+    { id: 'q4', n: 4, label: 'Should the site be fully private, fully public, or mixed?', type: 'radio', options: ['Fully private', 'Mixed — private, with a few public pages', 'Fully public', 'Not sure yet'] },
+    { id: 'q5', n: 5, label: 'Who will enter and update the information? Do you have existing records in spreadsheets or documents?', type: 'textarea', ph: 'For example: I will, with two cousins. We have a hardback book and a spreadsheet from 2019.' },
+    { id: 'q6', n: 6, label: 'Will you include photos and documents, or text only?', type: 'radio', options: ['Photos and documents', 'Photos only', 'Text only', 'Not sure yet'] },
+    { id: 'q7', n: 7, label: 'Which languages should the site use?', type: 'text', ph: 'English, with Swahili as a second language' },
+    { id: 'q8', n: 8, label: 'How do you plan to use the platform day to day?', type: 'textarea', ph: 'For example: tracking who is in school, family events, or keeping the land records together.', hint: 'Anything you like — students, school progress, family assets, events or contributions.' },
+    { id: 'q9', n: 9, label: 'Do you have colours, a family crest or a style in mind?', type: 'textarea', ph: 'If you have a crest or a photograph of one, we will ask for it separately.' },
+    { id: 'q10', n: 10, label: 'Which package interests you, and when would you like to launch?', type: 'package' },
+    { id: 'q11', n: 11, label: 'Which hosting option do you prefer?', type: 'radio', options: ['Option A — my own accounts', 'Option B — managed by Apex', 'Not sure yet'], hint: 'Option A means the domain, hosting and database are in your name and you pay the providers directly.' },
+    { id: 'q12', n: 12, label: 'Is there anything sensitive we should handle discreetly, or anything we have not asked?', type: 'textarea', ph: 'Use this space freely.' }
+  ];
+
+  function qValue(key) {
+    var a = window.FH.app.getAnswers();
+    return (a[key] || '').trim();
+  }
+
+  function qAnswered(q) {
+    if (q.type === 'pair') return !!qValue(q.keys[0]) && !!qValue(q.keys[1]);
+    if (q.type === 'package') return !!qValue('q10pkg');
+    return !!qValue(q.id);
+  }
+
+  var questions = {
+    title: 'Your questionnaire',
+    render: function () {
+      var total = Q.length;
+      var done = Q.filter(qAnswered).length;
+
+      function ctrl(q) {
+        if (q.type === 'text') {
+          return '<input class="input" data-key="' + q.id + '" value="' + esc(qValue(q.id)) + '" placeholder="' + esc(q.ph || '') + '">';
+        }
+        if (q.type === 'textarea') {
+          return '<textarea class="textarea" data-key="' + q.id + '" placeholder="' + esc(q.ph || '') + '">' + esc(qValue(q.id)) + '</textarea>';
+        }
+        if (q.type === 'radio') {
+          return '<div class="opt-row">' + q.options.map(function (o) {
+            return '<label class="opt"><input type="radio" name="' + q.id + '" data-key="' + q.id + '" value="' + esc(o) + '"' +
+              (qValue(q.id) === o ? ' checked' : '') + '><span>' + esc(o) + '</span></label>';
+          }).join('') + '</div>';
+        }
+        if (q.type === 'pair') {
+          return '<div class="q-pair">' +
+            '<div class="field"><label for="' + q.keys[0] + '">' + esc(q.a.label) + '</label>' +
+              '<input class="input" id="' + q.keys[0] + '" data-key="' + q.keys[0] + '" inputmode="numeric" value="' + esc(qValue(q.keys[0])) + '" placeholder="' + esc(q.a.ph) + '"></div>' +
+            '<div class="field"><label for="' + q.keys[1] + '">' + esc(q.b.label) + '</label>' +
+              '<input class="input" id="' + q.keys[1] + '" data-key="' + q.keys[1] + '" inputmode="numeric" value="' + esc(qValue(q.keys[1])) + '" placeholder="' + esc(q.b.ph) + '"></div>' +
+          '</div>';
+        }
+        if (q.type === 'package') {
+          var pk = qValue('q10pkg');
+          return '<div class="opt-row">' + ['Essential', 'Standard', 'Premium'].map(function (p) {
+            return '<label class="opt"><input type="radio" name="q10pkg" data-key="q10pkg" value="' + p + '"' +
+              (pk === p ? ' checked' : '') + '><span>' + p + '</span></label>';
+          }).join('') + '</div>' +
+          '<div class="field" style="margin-top:16px"><label for="q10when">When would you like to launch?</label>' +
+            '<input class="input" id="q10when" data-key="q10when" value="' + esc(qValue('q10when')) + '" placeholder="For example: before Easter, or as soon as possible"></div>';
+        }
+        return '';
+      }
+
+      return '<main id="main" class="wrap wrap-mid">' +
+        '<div class="page-head">' +
+          '<p class="eyebrow">Section 15 of your Project Pack</p>' +
+          '<h1 class="page-title">A few questions, in your own words.</h1>' +
+          '<p class="lede">Twelve answers fix the final scope, the price and the dates. Short answers are fine, and you can leave anything blank and come back to it. Nothing is sent until you press send.</p>' +
+        '</div>' +
+
+        '<div class="q-progress">' +
+          '<div class="progress"><i style="width:' + (done / total * 100) + '%"></i></div>' +
+          '<p class="small muted" data-el="qcount">' + done + ' of ' + total + ' answered.</p>' +
+        '</div>' +
+
+        '<div class="q-list">' + Q.map(function (q) {
+          return '<section class="q-item' + (qAnswered(q) ? ' is-answered' : '') + '" data-q="' + q.id + '" id="' + q.id + '">' +
+            '<div class="q-head"><span class="q-n">' + q.n + '</span>' +
+              '<div><p class="q-label">' + esc(q.label) + '</p>' +
+              (q.hint ? '<p class="q-hint">' + esc(q.hint) + '</p>' : '') + '</div></div>' +
+            '<div class="q-body">' + ctrl(q) + '</div>' +
+          '</section>';
+        }).join('') + '</div>' +
+
+        '<div class="wa-block" style="max-width:560px;margin-bottom:80px">' +
+          '<p>Send your answers to Apex on WhatsApp. It opens WhatsApp with everything written out — you press send, and you can change anything first.</p>' +
+          '<button class="btn btn-primary" data-act="send-q">' + icon('mail', 16) + ' Send my answers</button>' +
+          '<p style="margin:10px 0 0;text-align:center">to <span class="wa-num">0711 410 442</span></p>' +
+        '</div>' +
+      '</main>';
+    },
+    mount: function (root) {
+      function refresh() {
+        var done = Q.filter(qAnswered).length;
+        var bar = root.querySelector('.q-progress .progress i');
+        if (bar) bar.style.width = (done / Q.length * 100) + '%';
+        var lab = root.querySelector('[data-el="qcount"]');
+        if (lab) lab.textContent = done + ' of ' + Q.length + ' answered.';
+        root.querySelectorAll('.q-item').forEach(function (el) {
+          var q = Q.filter(function (x) { return x.id === el.dataset.q; })[0];
+          if (q) el.classList.toggle('is-answered', qAnswered(q));
+        });
+      }
+
+      root.querySelectorAll('[data-key]').forEach(function (el) {
+        var ev = (el.type === 'radio' || el.tagName === 'SELECT') ? 'change' : 'input';
+        el.addEventListener(ev, function () {
+          window.FH.app.setAnswer(el.dataset.key, el.value);
+          refresh();
+        });
+      });
+
+      var send = root.querySelector('[data-act="send-q"]');
+      if (send) send.addEventListener('click', function () {
+        var lines = ['Hello Apex Webs — Baraza family questionnaire.', ''];
+        lines.push('Name for the site: ' + (qValue('q1') || '—'));
+        lines.push('Members: ' + (qValue('q2a') || '—') + ' at launch, ' + (qValue('q2b') || '—') + ' later');
+        lines.push('One family or several branches: ' + (qValue('q3') || '—'));
+        lines.push('Privacy: ' + (qValue('q4') || '—'));
+        lines.push('Photos or text only: ' + (qValue('q6') || '—'));
+        lines.push('Languages: ' + (qValue('q7') || '—'));
+        lines.push('Package: ' + (qValue('q10pkg') || '—') + (qValue('q10when') ? ' · launch ' + qValue('q10when') : ''));
+        lines.push('Hosting: ' + (qValue('q11') || '—'));
+        lines.push('');
+        lines.push('Who updates it: ' + (qValue('q5') || '—'));
+        lines.push('Day to day use: ' + (qValue('q8') || '—'));
+        lines.push('Colours or crest: ' + (qValue('q9') || '—'));
+        lines.push('Sensitive or unasked: ' + (qValue('q12') || '—'));
+        lines.push('');
+        lines.push('(Sent from the design prototype.)');
+        var url = window.FH.app.waLink(lines.join('\n'));
+        var w = window.open(url, '_blank', 'noopener');
+        if (!w) location.href = url;
+      });
+
+      refresh();
+    }
+  };
+
   window.FH = window.FH || {};
   window.FH.screens = {
     cover: cover, signin: signin, tree: tree, profile: profile, people: people,
-    admin: admin, request: request, privacy: privacy, invite: invite, pack: pack
+    admin: admin, request: request, privacy: privacy, invite: invite, pack: pack,
+    questions: questions
   };
   window.FH.esc = esc;
   window.FH.icon = icon;

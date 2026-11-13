@@ -35,13 +35,15 @@
     ['request', 'Approval queue'],
     ['privacy', 'Privacy controls'],
     ['invite', 'Invite a relative'],
-    ['pack', 'The Project Pack']
+    ['pack', 'The Project Pack'],
+    ['questions', 'Your questionnaire']
   ];
 
   var look = store('fh.look', 'a');
   var approvals = store('fh.approvals', {});
   var notes = store('fh.notes', '');
   var checklist = store('fh.checklist', {});
+  var answers = store('fh.answers', {});
 
   var LOOKS = [
     { id: 'a', name: 'Albamu', desc: 'Warm ivory, forest green, ochre. Fraunces and Inter. Soft and kept.', sw: ['#FAF6EC', '#12362E', '#A9762A'] },
@@ -119,10 +121,13 @@
     if (a === 'privacy') return { name: 'privacy', params: {} };
     if (a === 'invite') return { name: 'invite', params: {} };
     if (a === 'pack') return { name: 'pack', params: {} };
+    if (a === 'questions' || a === 'questionnaire') return { name: 'questions', params: {} };
     return { name: 'cover', params: {} };
   }
 
   var KEY = { cover: '', signin: '', tree: 'tree', profile: 'tree', people: 'people', admin: 'admin', request: 'admin', privacy: 'privacy', invite: 'admin', pack: 'pack' };
+
+  KEY.questions = 'pack';
 
   function route(hash) {
     var r = parse(hash);
@@ -490,6 +495,8 @@
     trailFor: trailFor,
     getChecklist: function () { return checklist; },
     setChecklist: function (k, v) { checklist[k] = v; save('fh.checklist', checklist); },
+    getAnswers: function () { return answers; },
+    setAnswer: function (k, v) { answers[k] = v; save('fh.answers', answers); },
     sendReview: sendReview,
     reviewText: reviewText,
     waLink: function (text) { return 'https://wa.me/' + WA + '?text=' + encodeURIComponent(text); }
