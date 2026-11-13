@@ -636,9 +636,12 @@
     function stopTween() { if (raf) { cancelAnimationFrame(raf); raf = null; } }
 
     shell.addEventListener('pointerdown', function (ev) {
-      // Mouse keeps the old canvas-only drag; touch may also grab a card
-      // (a stationary tap still fires its click, a moved finger pans).
-      if (ev.target.closest('.zbtn, .tree-overlay, .trail, a, button:not(.tnode)')) return;
+      var onChrome = !!ev.target.closest('.zbtn, .tree-overlay, .trail, a, button:not(.tnode)');
+      var onCard = !onChrome && !!ev.target.closest('.tnode');
+      if (onChrome) return;
+      // Mouse drags start on the bare canvas only, as before - grabbing a
+      // card must leave its click untouched. Touch may grab cards too.
+      if (ev.pointerType === 'mouse' && onCard) return;
       stopTween();
       pointers.set(ev.pointerId, { x: ev.clientX, y: ev.clientY });
       if (pointers.size === 2) {
@@ -652,7 +655,6 @@
       if (ev.pointerType === 'mouse') {
         try { shell.setPointerCapture(ev.pointerId); } catch (e) {}
       }
-      ev.preventDefault();
     });
     shell.addEventListener('pointermove', function (ev) {
       if (!pointers.has(ev.pointerId)) return;
